@@ -1,20 +1,28 @@
 /*
 
 // TODO
-* [ ] create adding and removing from lists
-    * test with 718 # - 1843249621003
+* [ ] test removing from lists
+* [ ] test joining then leaving then checking if you're enrolled
 
-* [x] go through all the texts, not just the last one!
 * [ ] be aware of people joining AND leaving in same message
 * [ ] be aware of ordering of messages by date? item.created (test this)
 * [ ] STOP??? OR LEAVE?
 * [ ] try to delete numbers that leave
 * [ ] add "since X period" to message
 * [ ] figure out how to be sure we know the last time the script was run, we don't miss anyone
+* [ ] try to switch to fetching only ids, not #s
+
+* [x] create adding and removing from lists
+* [x] login via form
+* [x] go through all the texts, not just the last one!
 
 // BROADER
 * [ ] check how long #s are saved, who has access
-* [ ] subpoena-ability of #s
+* [ ] privacy of #s
+
+// EXAMPLE QUERIES
+client.contacts.addContactListItems({ id: 3343333003, body: { contactNumbers: [17184966293] }}).then(function(r) {console.log(r)});
+client.contacts.getContactList({ id: 3343333003 })
 
 */
 
@@ -46,6 +54,7 @@ function login(uid, secret, callback) {
     var secret = $('#password').val();
     login(uid, secret, function onLoginComplete() {
       $('.btn').removeClass('disabled');
+      $('#login').remove(); // this to trigger pwd saving; https://stackoverflow.com/questions/21191336/getting-chrome-to-prompt-to-save-password-when-using-ajax-to-login
       console.log('login complete');
     });
     console.log('logging in');
@@ -108,6 +117,7 @@ console.log('people',people);
     });
 console.log('leavers, joiners', leavers,joiners);
 
+// ORDER!!
     addPeopleToContactList(joiners);
     removePeopleFromContactList(leavers);    
 
@@ -121,21 +131,47 @@ console.log('leavers, joiners', leavers,joiners);
 // untested
 function addPeopleToContactList(people, callback) {
 console.log('addPeople', people)
-console.log(idsFromPeople(people))
-//  client.contacts.addContactListItems({ ids: idsFromPeople(people) }).then(callback);
+
+  client.contacts.addContactListItems({
+    id: 3343333003,
+    body: {
+      contactNumbers: numbersFromPeople(people)
+    }
+  }).then(function onAddContactComplete(response) {
+    callback(response);
+    console.log(response);
+  });
 }
 
 // untested
 function removePeopleFromContactList(people, callback) {
 console.log('removePeople', people)
-//  client.contacts.removeContactListItems({ ids: idsFromPeople(people) }).then(callback);
+
+  client.contacts.removeContactListItems({
+    id: 3343333003,
+    body: {
+      contactNumbers: numbersFromPeople(people)
+    }
+  }).then(function onRemoveContactComplete(response) {
+    callback(response);
+    console.log(response);
+  });
 }
 
-// untested
+// untested, unused
 function idsFromPeople(people) {
   var keys = Object.keys(people);
   return keys.map(function eachPerson(key) {
     var person = people[key];
     return person.items[0].contact.id
+  });
+}
+
+// untested
+function numbersFromPeople(people) {
+  var keys = Object.keys(people);
+  return keys.map(function eachPerson(key) {
+    var person = people[key];
+    return person.items[0].fromNumber
   });
 }
