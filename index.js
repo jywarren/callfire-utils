@@ -21,27 +21,37 @@
 var Swagger = SwaggerClient;
 var client;
 
-function main() {
-  var creds = prompt('Enter your user ID and secret key, as: "id,key"')
-  var uid = creds.split(',')[0];
-  var secret = creds.split(',')[1];
+function login(uid, secret, callback) {
   client = new CallfireClient(uid, secret);
   client.ready(function start() {
-
-    $('.btn').removeClass('disabled');
-
     client.me.getAccount()
       .then(function(response) {
+        if (callback) callback();
         console.log('account', response.obj);
       })
       .catch(function(err) {
         throw Error('err ' + err + err.data);
       });
-
   });
 }
 
-(function() { main(); })();
+
+
+// UI
+
+(function() {
+  $('#login').submit(function onLogin(e) {
+    e.preventDefault();
+    var uid = $('#username').val();
+    var secret = $('#password').val();
+    login(uid, secret, function onLoginComplete() {
+      $('.btn').removeClass('disabled');
+      console.log('login complete');
+    });
+    console.log('logging in');
+    return false;
+  });
+})();
 
 // trigger getTexts via button, re-enable when done
 function getTextsBtn(el) {
@@ -49,6 +59,10 @@ function getTextsBtn(el) {
   getTexts();
   $(el).removeClass('disabled');
 }
+
+
+
+// Functional
 
 function getTexts(el, callback) {
   el = el || '.output';
@@ -61,7 +75,7 @@ function getTexts(el, callback) {
   client.texts.findTexts({toNumber: '16178632018'}).then(callback);
 }
 
-function processCommands(el, callback) {
+function getLeaversAndJoiners(el, callback) {
   el = el || '.output';
   var JOIN = /join|JOIN/;
   var LEAVE = /leave|LEAVE/;
@@ -94,25 +108,25 @@ console.log('people',people);
     });
 console.log('leavers, joiners', leavers,joiners);
 
-    addPeople(joiners);
-    removePeople(leavers);    
+    addPeopleToContactList(joiners);
+    removePeopleFromContactList(leavers);    
 
     // report how many joined or stopped
-    $(el).html(joiners.length + " joined and " + leavers.length + " left.");
+    if ($) $(el).html(joiners.length + " joined and " + leavers.length + " left.");
   }
 
   getTexts(false, callback);
 }
 
 // untested
-function addPeople(people, callback) {
+function addPeopleToContactList(people, callback) {
 console.log('addPeople', people)
 console.log(idsFromPeople(people))
 //  client.contacts.addContactListItems({ ids: idsFromPeople(people) }).then(callback);
 }
 
 // untested
-function removePeople(people, callback) {
+function removePeopleFromContactList(people, callback) {
 console.log('removePeople', people)
 //  client.contacts.removeContactListItems({ ids: idsFromPeople(people) }).then(callback);
 }

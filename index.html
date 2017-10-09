@@ -7,20 +7,27 @@
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/swagger-client/browser/swagger-client.min.js" charset="utf-8"></script>
     <script src="node_modules/callfire-api-client-js/lib/callfire-api-client-js.js" charset="utf-8"></script>
-    <script src="index.js" charset="utf-8"></script>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
 
     <div class="container">
+      <h3>Login</h3>
+      <form id="login" autocomplete="on">
+        <p><input class="form-control" type="text" id="username" placeholder="id" /></p>
+        <p><input class="form-control" type="password" id="password" placeholder="secret key" /></p>
+        <p><button type="submit" class="btn btn-primary">Log in</button></p>
+      </form>
       <h3>Tools</h3>
       <p>
-        <a class="btn btn-lg btn-primary disabled" onclick="getTextsBtn(this)">Get texts</a>
+        <a class="btn btn-primary disabled" onclick="getTextsBtn(this)">Get texts</a>
+        <a class="btn btn-primary disabled" onclick="getLeaversAndJoiners(this)">Get leavers and joiners</a>
       </p>
       <h3>Output</h3>
       <textarea class="form-control output" rows="20"></textarea>
     </div>
 
+    <script src="index.js" charset="utf-8"></script>
   </body>
 </html>
