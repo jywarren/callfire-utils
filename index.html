@@ -24,7 +24,7 @@
       <h3>Tools</h3>
       <p>
         <a class="btn btn-primary disabled" onclick="getTextsBtn(this)">Get texts</a>
-        <a class="btn btn-primary disabled" onclick="getLeaversAndJoiners(this)">Get leavers and joiners</a>
+        <a class="btn btn-primary disabled" onclick="utils.getLeaversAndJoiners(this)">Get leavers and joiners</a>
       </p>
 
       <h3>Output</h3>
@@ -36,11 +36,12 @@
 
     <script>
 
-// UI
+       var util;
 
-(function() {
-  $('#login').submit(onLogin);
-})();
+      (function() {
+        utils = CallfireUtils();
+        $('#login').submit(onLogin);
+      })();
 
     </script>
   </body>
