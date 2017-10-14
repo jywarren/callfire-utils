@@ -28,6 +28,7 @@ client.contacts.getContactList({ id: 3343333003 })
 
 var Swagger = SwaggerClient;
 var client;
+var contactList = '3343333003';
 
 function login(uid, secret, callback) {
   client = new CallfireClient(uid, secret);
@@ -42,33 +43,6 @@ function login(uid, secret, callback) {
       });
   });
 }
-
-
-
-// UI
-
-(function() {
-  $('#login').submit(function onLogin(e) {
-    e.preventDefault();
-    var uid = $('#username').val();
-    var secret = $('#password').val();
-    login(uid, secret, function onLoginComplete() {
-      $('.btn').removeClass('disabled');
-      $('#login').remove(); // this to trigger pwd saving; https://stackoverflow.com/questions/21191336/getting-chrome-to-prompt-to-save-password-when-using-ajax-to-login
-      console.log('login complete');
-    });
-    console.log('logging in');
-    return false;
-  });
-})();
-
-// trigger getTexts via button, re-enable when done
-function getTextsBtn(el) {
-  $(el).addClass('disabled');
-  getTexts();
-  $(el).removeClass('disabled');
-}
-
 
 
 // Functional
@@ -146,16 +120,19 @@ console.log('addPeople', people)
 // untested
 function removePeopleFromContactList(people, callback) {
 console.log('removePeople', people)
-
+  var numbers = numbersFromPeople(people);
   client.contacts.removeContactListItems({
-    id: 3343333003,
+    id: contactList,
     body: {
-      contactNumbers: numbersFromPeople(people)
+      contactNumbers: numbers
     }
   }).then(function onRemoveContactComplete(response) {
     callback(response);
     console.log(response);
   });
+}
+
+function removePeople() {
 }
 
 // untested, unused

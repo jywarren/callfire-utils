@@ -31,6 +31,17 @@
       <textarea class="form-control output" rows="20"></textarea>
     </div>
 
-    <script src="index.js" charset="utf-8"></script>
+    <script src="dist/callfire-utils.js" charset="utf-8"></script>
+    <script src="dist/callfire-ui.js" charset="utf-8"></script>
+
+    <script>
+
+// UI
+
+(function() {
+  $('#login').submit(onLogin);
+})();
+
+    </script>
   </body>
 </html>

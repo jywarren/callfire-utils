@@ -1,0 +1,39 @@
+{
+  "name": "callfire-utils",
+  "version": "0.0.1",
+  "description": "A set of utilities for doing common tasks with the Callfire API.",
+  "main": "dist/callfire-utils.js",
+  "scripts": {
+    "test": "tape test/*.js | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jywarren/callfire-utils.git"
+  },
+  "keywords": [
+    "callfire",
+    "sms"
+  ],
+  "author": "Jeffrey Warren",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jywarren/callfire-utils/issues"
+  },
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "font-awesome": "~4.5.0",
+    "jquery": "~2",
+    "callfire-api-client-js": "~0.0.4",
+    "swagger-client": "^2.1.32"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "grunt-contrib-watch": "^0.6.1",
+    "tap-spec": "^4.1.1",
+    "tape": ">=4.7.0",
+    "tape-run": "^3.0.0"
+  },
+  "homepage": "https://github.com/jywarren/callfire-utils"
+}
